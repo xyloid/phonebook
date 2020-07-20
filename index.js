@@ -5,7 +5,14 @@ const morgan = require("morgan");
 
 app.use(express.json());
 
-app.use(morgan("tiny"));
+// setup custom token function
+morgan.token("data", (req, res) => {
+  return JSON.stringify(req.body);
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :data")
+);
 
 let persons = [
   { name: "Arto Hellas", number: "040-123456", id: 1 },
