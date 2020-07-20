@@ -1,7 +1,11 @@
 const express = require("express");
 const app = express();
 
+const morgan = require("morgan");
+
 app.use(express.json());
+
+app.use(morgan("tiny"));
 
 let persons = [
   { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -32,7 +36,7 @@ app.get("/api/persons/:id", (req, res) => {
   if (person) {
     res.json(person);
   } else {
-    res.status(404).end();
+    res.status(404).json("person id doesn't exist");
   }
 });
 
