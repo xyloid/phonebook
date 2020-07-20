@@ -43,17 +43,33 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-    let person = req.body;
-    let id = generate_id();
-    person.id = id;
+  let body = req.body;
 
-    persons = persons.concat(person);
-    res.json(person);
+  if (!body.name || !body.number || body.name.trim() === "") {
+    return res.status(400).json("name or number missing");
+  }
+
+  if (persons.find((p) => p.name === body.name)) {
+    return res.status(409).json("name already exists");
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generate_id(),
+  };
+
+  persons = persons.concat(person);
+  res.json(person);
 });
 
-const generate_id=()=>{
-    return Math.floor(Math.random()*10000);
-}
+const generate_id = () => {
+  let id = 0;
+  do {
+    id = Math.floor(Math.random() * 10000);
+  } while (persons.find((p) => p.id === id));
+  return id;
+};
 
 const PORT = 3001;
 app.listen(PORT, () => {
