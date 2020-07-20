@@ -1,0 +1,27 @@
+{
+  "name": "phonebook",
+  "version": "0.0.1",
+  "description": "Phonebook exercises of FullStackOpen2020 part 3",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xyloid/phonebook.git"
+  },
+  "author": "xyloid",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xyloid/phonebook/issues"
+  },
+  "homepage": "https://github.com/xyloid/phonebook#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
