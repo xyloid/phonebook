@@ -4,13 +4,13 @@
   "description": "Phonebook exercises of FullStackOpen2020 part 3",
   "main": "index.js",
   "scripts": {
-    "build:ui":"rm -rf build && cd ../FullStackOpen2020/part2/phonebook/ && npm run build --prod && cp -r build ../../../phonebook/",
+    "build:ui": "rm -rf build && cd ../FullStackOpen2020/part2/phonebook/ && npm run build --prod && cp -r build ../../../phonebook/",
     "deploy": "git push heroku master",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "logs:prod": "heroku logs --tail",
-    "deploy:full":"npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongoose": "^5.9.25",
     "morgan": "^1.10.0"
   }
 }
