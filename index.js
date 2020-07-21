@@ -1,3 +1,8 @@
+// import environment variable
+require("dotenv").config();
+
+const Person = require("./models/person");
+
 const express = require("express");
 const app = express();
 
@@ -32,7 +37,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  // res.json(persons);
+  Person.find({}).then(people=>{
+    res.json(people);
+  });
 });
 
 app.get("/info", (req, res) => {
@@ -45,12 +53,15 @@ app.get("/info", (req, res) => {
 
 app.get("/api/persons/:id", (req, res) => {
   let id = Number(req.params.id);
-  let person = persons.find((p) => p.id === id);
-  if (person) {
+  // let person = persons.find((p) => p.id === id);
+  // if (person) {
+  //   res.json(person);
+  // } else {
+  //   res.status(404).json("person id doesn't exist");
+  // }
+  Person.findById(id).then(person=>{
     res.json(person);
-  } else {
-    res.status(404).json("person id doesn't exist");
-  }
+  });
 });
 
 app.delete("/api/persons/:id", (req, res) => {
@@ -70,14 +81,18 @@ app.post("/api/persons", (req, res) => {
     return res.status(409).json("name already exists");
   }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: generate_id(),
-  };
+  });
 
-  persons = persons.concat(person);
-  res.json(person);
+  person.save().then((savePerson) => {
+    res.json(savePerson);
+  });
+
+  // persons = persons.concat(person);
+  // res.json(person);
 });
 
 const generate_id = () => {
@@ -88,7 +103,8 @@ const generate_id = () => {
   return id;
 };
 
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
