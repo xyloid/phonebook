@@ -1,24 +1,14 @@
 const mongoose = require("mongoose");
 
-console.log(process.argv);
-
 const password = process.argv[2];
 
 const data = process.argv.slice(3);
-
-console.log(data);
 
 const url = `mongodb+srv://fullstack:${password}@fso2020.q4awj.azure.mongodb.net/phonebook?retryWrites=true&w=majority`;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const generate_id = (check) => {
-  let id = 0;
 
-  id = Math.floor(Math.random() * 10000);
-
-  return id;
-};
 
 const personSchema = new mongoose.Schema({
   name: String,
@@ -27,6 +17,14 @@ const personSchema = new mongoose.Schema({
 });
 
 const Person = mongoose.model("Person", personSchema);
+
+const generate_id = () => {
+    let id = 0;
+  
+    id = Math.floor(Math.random() * 10000);
+
+    return id;
+  };
 
 if (data.length === 0) {
   Person.find({}).then((results) => {
