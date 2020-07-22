@@ -30,20 +30,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/persons", (req, res) => {
-  
-  if(req.query.name){
-    Person.find({name:req.query.name}).then((people) => {
-      console.log('find by name: ', req.query.name)
+  if (req.query.name) {
+    Person.find({ name: req.query.name }).then((people) => {
+      console.log("find by name: ", req.query.name);
       res.json(people);
     });
-  }else{
+  } else {
     Person.find({}).then((people) => {
-      console.log('find all persons')
+      console.log("find all persons");
       res.json(people);
     });
   }
-
-  
 });
 
 app.get("/info", (req, res) => {
@@ -54,16 +51,18 @@ app.get("/info", (req, res) => {
   );
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   // let person = persons.find((p) => p.id === id);
   // if (person) {
   //   res.json(person);
   // } else {
   //   res.status(404).json("person id doesn't exist");
   // }
-  Person.findById(req.params.id).then((person) => {
-    res.json(person);
-  });
+  Person.findById(req.params.id)
+    .then((person) => {
+      res.json(person);
+    })
+    .catch((error) => next(error));
 });
 
 app.delete("/api/persons/:id", (request, response, next) => {
@@ -77,7 +76,7 @@ app.delete("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   let body = req.body;
 
   if (!body.name || !body.number || body.name.trim() === "") {
@@ -89,9 +88,12 @@ app.post("/api/persons", (req, res) => {
     number: body.number,
   });
 
-  person.save().then((savePerson) => {
-    res.json(savePerson);
-  });
+  person
+    .save()
+    .then((savePerson) => {
+      res.json(savePerson);
+    })
+    .catch((error) => next(error));
 
   // persons = persons.concat(person);
   // res.json(person);
@@ -129,6 +131,10 @@ const errorHandler = (error, request, response, next) => {
 };
 
 app.use(errorHandler);
+
+// const generate_id = () => {
+//   return Math.floor(Math.random() * 100000);
+// };
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
