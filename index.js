@@ -33,10 +33,12 @@ app.get("/api/persons", (req, res) => {
   
   if(req.query.name){
     Person.find({name:req.query.name}).then((people) => {
+      console.log('find by name: ', req.query.name)
       res.json(people);
     });
   }else{
     Person.find({}).then((people) => {
+      console.log('find all persons')
       res.json(people);
     });
   }
