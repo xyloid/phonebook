@@ -1,6 +1,9 @@
 GET http://localhost:3001/api/persons
 
 ###
+GET http://localhost:3001/api/persons/?name=Bach
+
+###
 GET http://localhost:3001/
 
 ###
